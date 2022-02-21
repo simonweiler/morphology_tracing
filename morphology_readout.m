@@ -1,5 +1,5 @@
 
-function [morph_data] = morphology_readout;
+function [morph_data] = morphology_readout(swc_list, plot_cell)
 %SW 160420 in TB lab updated on 220127 in TM lab
 %code to load and extract as well as save parameters morpholgy for cells that have basal and apical trees;
 % see as example https://www.biorxiv.org/content/10.1101/2021.10.13.464276v1.full 
@@ -11,11 +11,6 @@ function [morph_data] = morphology_readout;
 
 %IMPORTANT: the dimensions should be ideally set correctly before tracing
 %and exporting as swc files
-%% MODIFY ACCORDINGLY%
-experiments_main_folder   = 'G:\';
-% get directory for cell with swc files 
-swc_list = uipickfiles('FilterSpec',experiments_main_folder);
-%%%%
 %% Find indexes of apical, basal and soma and check whether naimg of user is correct
 for i=1:size(swc_list,2);
 if contains(swc_list{1,i},'apical','IgnoreCase',true)==1;
@@ -82,11 +77,13 @@ apical_tree.Z=apical_tree.Z-mz;
 soma_tree.X=soma_tree.X-mx;
 soma_tree.Y=soma_tree.Y-my;
 soma_tree.Z=soma_tree.Z-mz;
-morphology_traces={apical_tree;com_tree;soma_tree}
+morphology_traces={apical_tree;com_tree;soma_tree};
 
-% %plot the cell itself 
-big=figure;mon_pos=get(0,'MonitorPositions');set(gcf,'color','w', 'menubar','figure', 'position',[mon_pos(1,3)-1200 2 500 500]); % [left, bottom, width, height]
-figure(big);HP=plot_tree(apical_tree,[],[],[],[],'-3l');hold on;plot_tree(com_tree,[],[],[],[],'-3l');plot_tree(soma_tree,[],[],[],[],'-3l');
+if plot_cell
+    % %plot the cell itself 
+    big=figure;mon_pos=get(0,'MonitorPositions');set(gcf,'color','w', 'menubar','figure', 'position',[mon_pos(1,3)-1200 2 500 500]); % [left, bottom, width, height]
+    figure(big);HP=plot_tree(apical_tree,[],[],[],[],'-3l');hold on;plot_tree(com_tree,[],[],[],[],'-3l');plot_tree(soma_tree,[],[],[],[],'-3l');
+end
 %save data in cd folder as morph_data (traces + stats)
 cd(swc_list{1,apical(1)}(1:end-(length(apical_tree.name)+4)));
 morph_data.traces=morphology_traces;
