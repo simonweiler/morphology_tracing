@@ -37,11 +37,12 @@ com_tree=cat_tree(tree1,tree2);
 if length(basal)>2
     for i=1:length(basal)-2
         temp_tree=[];
-        try
+%         try        
         temp_tree=load_tree (swc_list{1,basal(i+2)}, 'swc');
         com_tree=cat_tree_sw(com_tree,temp_tree);      
-        catch 
-        end
+%         catch exception
+%         throw(exception) 
+%         end
     end
 end
 else 

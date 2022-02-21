@@ -115,8 +115,14 @@ if isempty(strfind (options, '-r')),
     if isfield(tree1,'R') && isfield(tree2, 'R')
         if isfield (tree1, 'rnames') && isfield (tree2, 'rnames'),
             [i1 i2 i3] = unique ([tree1.rnames tree2.rnames]);
-            R = [tree1.R'; tree2.R+length(tree1.rnames)];
-            i3 = i3'; tree.R = i3(R);
+            %R = [tree1.R'; tree2.R+length(tree1.rnames)];
+            % TC: The above line throws errors because it tries to cat a 
+            % column vector with a row vector, fixed bellow:
+            R = [tree1.R; tree2.R+length(tree1.rnames)];
+            % TC: Transposing i3 turns a column vector into a row 
+            % vector which breaks it again.
+            %i3 = i3'; 
+            tree.R = i3(R);
             tree.rnames = i1;
         else
             [i1 i2 i3] = unique([tree1.R; tree2.R]);
