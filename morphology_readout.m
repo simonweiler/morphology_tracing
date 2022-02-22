@@ -1,5 +1,5 @@
 
-function [morph_data] = morphology_readout(swc_list, plot_cell)
+function [morph_data] = morphology_readout(swc_list, plot_cell, save_path)
 %SW 160420 in TB lab updated on 220127 in TM lab
 %code to load and extract as well as save parameters morpholgy for cells that have basal and apical trees;
 % see as example https://www.biorxiv.org/content/10.1101/2021.10.13.464276v1.full 
@@ -11,6 +11,10 @@ function [morph_data] = morphology_readout(swc_list, plot_cell)
 
 %IMPORTANT: the dimensions should be ideally set correctly before tracing
 %and exporting as swc files
+
+if nargin < 3
+    save_path = '';
+end
 %% Find indexes of apical, basal and soma and check whether naimg of user is correct
 for i=1:size(swc_list,2);
 if contains(swc_list{1,i},'apical','IgnoreCase',true)==1;
@@ -90,8 +94,11 @@ cd(swc_list{1,apical(1)}(1:end-(length(apical_tree.name)+4)));
 morph_data.traces=morphology_traces;
 morph_data.apical_stats=apical_stats;
 morph_data.basal_stats=basal_stats;
-save('morph_data','morph_data');
-
+if isempty(save_path)
+    save('morph_data','morph_data');
+else
+    save(save_path,'morph_data');
+end
 
    
 end
