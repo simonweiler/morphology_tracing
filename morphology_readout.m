@@ -94,6 +94,10 @@ cd(swc_list{1,apical(1)}(1:end-(length(apical_tree.name)+4)));
 morph_data.traces=morphology_traces;
 morph_data.apical_stats=apical_stats;
 morph_data.basal_stats=basal_stats;
+morph_data.soma_stats.mx=mx;
+morph_data.soma_stats.my=my;
+morph_data.soma_stats.mz=mz;
+
 if isempty(save_path)
     save('morph_data','morph_data');
 else
