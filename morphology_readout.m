@@ -60,10 +60,12 @@ com_tree.name='basal_combined';
 for i=1:length(apical)
 apical_tree=[];
 [apical_tree] = load_tree (swc_list{1,apical(i)}, 'swc');
-apical_stats=stats_tree_sw(apical_tree,[],'-w -x');close all;
+% Removed options '-x' here because we want sholl.
+apical_stats=stats_tree_sw(apical_tree,[],[],'-w');close all;
 end
 %basal
-basal_stats=stats_tree_sw(com_tree,[],'-w -x');close all;
+% Removed option '-x' here because we want sholl.
+basal_stats=stats_tree_sw(com_tree,[],[],'-w');close all;
 basal_stats.gstats.basaltrees=length(basal);
 %% Morphology soma subtraction
 [soma_tree] = load_tree (swc_list{1,soma(1)}, 'swc');

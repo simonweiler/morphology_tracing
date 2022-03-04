@@ -39,7 +39,7 @@
 % the TREES toolbox: edit, visualize and analyze neuronal trees
 % Copyright (C) 2009  Hermann Cuntz
 
-function [stats tname tpath] = stats_tree (intrees, s, tname, options)
+function [stats tname tpath] = stats_tree_sw (intrees, s, tname, options)
 
 % trees : contains the tree structures in the trees package
 global trees
@@ -125,6 +125,8 @@ for te = 1 : lens, % walk through tree groups
     gstats(te).mblen =    zeros(lent,1);  % mean branch lengths [um]
     gstats(te).mplen =    zeros(lent,1);  % mean path length (depends on node resolution) [um]
     gstats(te).mbo =      zeros(lent,1);  % mean branch order
+    gstats(te).width =    zeros(lent,1);  % width of spanning field
+    gstats(te).height =   zeros(lent,1);  % height of spanning field
     gstats(te).wh =       zeros(lent,1);  % height against width of spanning field
     gstats(te).wz =       zeros(lent,1);  % z-range against width of spanning field
     
@@ -234,6 +236,10 @@ for te = 1 : lens, % walk through tree groups
         gstats(te).chullx(ward) = mean (intrees{te}{ward}.X);
         gstats(te).chully(ward) = mean (intrees{te}{ward}.Y);
         gstats(te).chullz(ward) = mean (intrees{te}{ward}.Z);
+
+        gstats(te).width(ward) = (max (intrees{te}{ward}.X) - min (intrees{te}{ward}.X));
+        gstats(te).height(ward) = (max (intrees{te}{ward}.Y) - min (intrees{te}{ward}.Y));
+
         gstats(te).wh(ward) =     (max (intrees{te}{ward}.X) - min (intrees{te}{ward}.X)) ./  ...
             (max (intrees{te}{ward}.Y) - min (intrees{te}{ward}.Y));
         warning('off','MATLAB:divideByZero');
