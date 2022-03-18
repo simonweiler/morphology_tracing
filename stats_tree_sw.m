@@ -127,8 +127,9 @@ for te = 1 : lens, % walk through tree groups
     gstats(te).mbo =      zeros(lent,1);  % mean branch order
     gstats(te).width =    zeros(lent,1);  % width of spanning field
     gstats(te).height =   zeros(lent,1);  % height of spanning field
+    gstats(te).depth =    zeros(lent,1);  % depth of spanning field
     gstats(te).wh =       zeros(lent,1);  % height against width of spanning field
-    gstats(te).wz =       zeros(lent,1);  % z-range against width of spanning field
+    gstats(te).wd =       zeros(lent,1);  % z-range against width of spanning field
     
     gstats(te).chullx =   zeros(lent,1);  % center of mass x
     gstats(te).chully =   zeros(lent,1);  % center of mass y
@@ -239,14 +240,15 @@ for te = 1 : lens, % walk through tree groups
 
         gstats(te).width(ward) = (max (intrees{te}{ward}.X) - min (intrees{te}{ward}.X));
         gstats(te).height(ward) = (max (intrees{te}{ward}.Y) - min (intrees{te}{ward}.Y));
+        gstats(te).depth(ward) = (max (intrees{te}{ward}.Z) - min (intrees{te}{ward}.Z));
 
         gstats(te).wh(ward) =     (max (intrees{te}{ward}.X) - min (intrees{te}{ward}.X)) ./  ...
             (max (intrees{te}{ward}.Y) - min (intrees{te}{ward}.Y));
         warning('off','MATLAB:divideByZero');
         if isinf (gstats(te).wh(ward)), gstats(te).wh(ward) = 0; end;
-        gstats(te).wz(ward) = (max (intrees{te}{ward}.X) - min (intrees{te}{ward}.X)) ./ ...
+        gstats(te).wd(ward) = (max (intrees{te}{ward}.X) - min (intrees{te}{ward}.X)) ./ ...
             (max (intrees{te}{ward}.Z) - min (intrees{te}{ward}.Z));
-        if isinf (gstats(te).wz(ward)), gstats(te).wz(ward) = 0; end;
+        if isinf (gstats(te).wd(ward)), gstats(te).wz(ward) = 0; end;
         warning('on','MATLAB:divideByZero');
     end
 end
